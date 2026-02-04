@@ -1,0 +1,100 @@
+/* ---------- EntryCard ---------- */
+
+.entry-card {
+  position: relative;
+  padding: var(--spacing-md) 0;
+  /* Contain the absolutely-positioned delete button */
+  overflow: hidden;
+}
+
+/* ---------- Content ---------- */
+
+.entry-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  /* Leave room on the right so text never hides behind the delete button on desktop */
+  padding-right: var(--spacing-xl);
+  transition: transform 0.2s ease;
+}
+
+.entry-card__text {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  white-space: pre-wrap;   /* honour newlines in journal text */
+  word-break: break-word;
+}
+
+.entry-card__time {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* ---------- Delete button – hidden by default ---------- */
+
+.entry-card__delete {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(100%); /* pushed off-screen to the right */
+  transition: transform 0.2s ease, opacity 0.2s ease, color 0.15s ease, border-color 0.15s ease;
+  opacity: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  /* Prevent accidental text selection during swipe */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.entry-card__delete:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.entry-card__delete:active {
+  opacity: 0.7;
+}
+
+/* ---------- Desktop hover reveal ---------- */
+/*
+   On pointer devices (hover capable) the delete button slides in
+   when the card is hovered.  The .swiped modifier below handles
+   the touch / mobile path independently.
+*/
+@media (hover: hover) and (pointer: fine) {
+  .entry-card:hover .entry-card__delete {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ---------- Swiped state (mobile / touch) ---------- */
+/*
+   When the JS layer adds .entry-card--swiped the content slides
+   left and the delete button becomes visible.  Works on any device,
+   not gated behind a media query, so a keyboard or mouse user who
+   somehow triggers the state will also see it.
+*/
+.entry-card--swiped .entry-card__content {
+  transform: translateX(calc(-1 * var(--spacing-xl)));
+}
+
+.entry-card--swiped .entry-card__delete {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+}

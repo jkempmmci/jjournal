@@ -1,0 +1,22 @@
+/* ---------- DayGroup ---------- */
+
+.day-group {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ---------- Header ---------- */
+
+.day-group__header {
+  margin: 0 0 var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Entries ---------- */
+
+.day-group__entries {
+  /* EntryCard handles its own internal spacing and borders */
+}
