@@ -6,6 +6,7 @@ import type { JournalEntry } from './types/journal.ts'
 import JournalFeed from './components/JournalFeed/JournalFeed.tsx'
 import EntryModal from './components/EntryModal/EntryModal.tsx'
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle.tsx'
+import { ExportButton } from './components/ExportButton/ExportButton.tsx'
 import FAB from './components/FAB/FAB.tsx'
 import './App.css'
 
@@ -15,7 +16,7 @@ export default function App() {
   // localStorage key so they stay in sync.
   useTheme()
 
-  const { dayGroups, addEntry, updateEntry, deleteEntry } = useJournal()
+  const { entries, dayGroups, addEntry, updateEntry, deleteEntry } = useJournal()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [initialText, setInitialText] = useState('')
@@ -57,7 +58,10 @@ export default function App() {
     <div className="app">
       <header className="app__header">
         <h1 className="app__title">JJournal</h1>
-        <ThemeToggle />
+        <div className="app__header-actions">
+          <ExportButton entries={entries} />
+          <ThemeToggle />
+        </div>
       </header>
       <JournalFeed dayGroups={dayGroups} onEditEntry={handleEdit} />
       <EntryModal
