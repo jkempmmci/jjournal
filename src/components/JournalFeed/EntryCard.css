@@ -2,7 +2,7 @@
 
 .entry-card {
   position: relative;
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing-xs) 0;
   /* Contain the absolutely-positioned delete button */
   overflow: hidden;
 }
