@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /**
  * Captures global keystrokes and forwards the pressed character to a callback.
@@ -15,6 +15,12 @@ export function useKeyboardCapture(
   isModalOpen: boolean,
   onCapture: (initialText: string) => void,
 ): void {
+  const onCaptureRef = useRef(onCapture);
+
+  useEffect(() => {
+    onCaptureRef.current = onCapture;
+  }, [onCapture]);
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (isModalOpen) return;
@@ -30,9 +36,9 @@ export function useKeyboardCapture(
 
       if (event.key.length !== 1) return;
 
-      onCapture(event.key);
+      onCaptureRef.current(event.key);
     },
-    [isModalOpen, onCapture],
+    [isModalOpen],
   );
 
   useEffect(() => {

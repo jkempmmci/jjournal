@@ -16,7 +16,7 @@ export default function App() {
   // localStorage key so they stay in sync.
   useTheme()
 
-  const { entries, dayGroups, addEntry, updateEntry, deleteEntry } = useJournal()
+  const { entries, dayGroups, addEntry, updateEntry, deleteEntry, error } = useJournal()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [initialText, setInitialText] = useState('')
@@ -63,6 +63,11 @@ export default function App() {
           <ThemeToggle />
         </div>
       </header>
+      {error && (
+        <div className="app__error">
+          {error}
+        </div>
+      )}
       <JournalFeed dayGroups={dayGroups} onEditEntry={handleEdit} />
       <EntryModal
         isOpen={isModalOpen}

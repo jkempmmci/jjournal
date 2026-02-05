@@ -51,7 +51,18 @@ export default function EntryCard({ entry, onEdit }: EntryCardProps) {
     >
       <div className="entry-card__content">
         <div className="entry-card__text">
-          <ReactMarkdown>{entry.text}</ReactMarkdown>
+          <ReactMarkdown
+            allowedElements={[
+              'p', 'br', 'strong', 'em', 'u',
+              'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+              'ul', 'ol', 'li',
+              'code', 'pre',
+              'blockquote', 'hr',
+              'a'
+            ]}
+          >
+            {entry.text}
+          </ReactMarkdown>
         </div>
         <span className="entry-card__time">
           {formatTime(new Date(entry.createdAt))}
