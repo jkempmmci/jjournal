@@ -33,6 +33,17 @@ export const localStorageService: StorageService = {
     return newEntry;
   },
 
+  async update(id: EntryId, entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry> {
+    const entries = load();
+    const index = entries.findIndex((e) => e.id === id);
+    if (index === -1) throw new Error(`Entry ${id} not found`);
+
+    const updated: JournalEntry = { id, ...entry };
+    entries[index] = updated;
+    save(entries);
+    return updated;
+  },
+
   async delete(id: EntryId): Promise<void> {
     const entries = load();
     save(entries.filter((e) => e.id !== id));

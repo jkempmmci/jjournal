@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
 import type { KeyboardEvent, MouseEvent } from 'react'
+import type { JournalEntry } from '../../types/journal.ts'
 import './EntryModal.css'
 
 interface EntryModalProps {
   isOpen: boolean
   initialText: string
+  editingEntry?: JournalEntry | null
   onSubmit: (text: string) => void
+  onDelete?: (id: string) => void
   onClose: () => void
 }
 
-export default function EntryModal({ isOpen, initialText, onSubmit, onClose }: EntryModalProps) {
+export default function EntryModal({ isOpen, initialText, editingEntry, onSubmit, onDelete, onClose }: EntryModalProps) {
   const [text, setText] = useState(initialText)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -70,12 +73,21 @@ export default function EntryModal({ isOpen, initialText, onSubmit, onClose }: E
           onKeyDown={handleKeyDown}
         />
         <div className="entry-modal__actions">
+          {editingEntry && onDelete && (
+            <button
+              className="entry-modal__delete"
+              type="button"
+              onClick={() => onDelete(editingEntry.id)}
+            >
+              Delete
+            </button>
+          )}
           <button
             className="entry-modal__submit"
             disabled={text.trim().length === 0}
             onClick={handleSubmit}
           >
-            Save Entry
+            {editingEntry ? 'Save' : 'Add'}
           </button>
         </div>
       </div>

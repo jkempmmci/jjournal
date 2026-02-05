@@ -24,6 +24,17 @@ export function useJournal() {
     setEntries((prev) => [...prev, entry]);
   }, []);
 
+  const updateEntry = useCallback(async (id: string, text: string): Promise<void> => {
+    const existing = entries.find((e) => e.id === id);
+    if (!existing) throw new Error(`Entry ${id} not found`);
+
+    const updated = await storageService.update(id, {
+      text,
+      createdAt: existing.createdAt,
+    });
+    setEntries((prev) => prev.map((e) => (e.id === id ? updated : e)));
+  }, [entries]);
+
   const deleteEntry = useCallback(async (id: string): Promise<void> => {
     await storageService.delete(id);
     setEntries((prev) => prev.filter((e) => e.id !== id));
@@ -34,5 +45,5 @@ export function useJournal() {
     [entries],
   );
 
-  return { entries, dayGroups, addEntry, deleteEntry, loading };
+  return { entries, dayGroups, addEntry, updateEntry, deleteEntry, loading };
 }

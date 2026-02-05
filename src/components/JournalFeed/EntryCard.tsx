@@ -1,17 +1,18 @@
 import { useState, useCallback } from 'react'
+import ReactMarkdown from 'react-markdown'
 import type { JournalEntry } from '../../types/journal.ts'
 import { formatTime } from '../../utils/dateUtils.ts'
 import './EntryCard.css'
 
 interface EntryCardProps {
   entry: JournalEntry
-  onDelete: (id: string) => void
+  onEdit: (entry: JournalEntry) => void
 }
 
 /** Minimum horizontal distance (px) that qualifies as a swipe gesture. */
 const SWIPE_THRESHOLD = 50
 
-export default function EntryCard({ entry, onDelete }: EntryCardProps) {
+export default function EntryCard({ entry, onEdit }: EntryCardProps) {
   const [swiped, setSwiped] = useState(false)
 
   // ---------------------------------------------------------------------------
@@ -49,19 +50,21 @@ export default function EntryCard({ entry, onDelete }: EntryCardProps) {
       onTouchEnd={touchEnd}
     >
       <div className="entry-card__content">
-        <p className="entry-card__text">{entry.text}</p>
+        <div className="entry-card__text">
+          <ReactMarkdown>{entry.text}</ReactMarkdown>
+        </div>
         <span className="entry-card__time">
           {formatTime(new Date(entry.createdAt))}
         </span>
       </div>
 
       <button
-        className="entry-card__delete"
+        className="entry-card__edit"
         type="button"
-        aria-label={`Delete entry from ${formatTime(new Date(entry.createdAt))}`}
-        onClick={() => onDelete(entry.id)}
+        aria-label={`Edit entry from ${formatTime(new Date(entry.createdAt))}`}
+        onClick={() => onEdit(entry)}
       >
-        ×
+        ✎
       </button>
     </div>
   )

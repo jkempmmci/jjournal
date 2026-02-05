@@ -1,13 +1,13 @@
-import type { DayGroup } from '../../types/journal.ts'
+import type { DayGroup, JournalEntry } from '../../types/journal.ts'
 import EntryCard from './EntryCard.tsx'
 import './DayGroup.css'
 
 interface DayGroupProps {
   dayGroup: DayGroup
-  onDeleteEntry: (id: string) => void
+  onEditEntry: (entry: JournalEntry) => void
 }
 
-export default function DayGroup({ dayGroup, onDeleteEntry }: DayGroupProps) {
+export default function DayGroup({ dayGroup, onEditEntry }: DayGroupProps) {
   return (
     <section className="day-group">
       <h2 className="day-group__header">{dayGroup.displayDate}</h2>
@@ -17,7 +17,7 @@ export default function DayGroup({ dayGroup, onDeleteEntry }: DayGroupProps) {
           <EntryCard
             key={entry.id}
             entry={entry}
-            onDelete={onDeleteEntry}
+            onEdit={onEditEntry}
           />
         ))}
       </div>

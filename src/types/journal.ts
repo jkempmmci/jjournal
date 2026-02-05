@@ -15,6 +15,7 @@ export interface DayGroup {
 export interface StorageService {
   getAll(): Promise<JournalEntry[]>;
   add(entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry>;
+  update(id: EntryId, entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry>;
   delete(id: EntryId): Promise<void>;
 }
 
